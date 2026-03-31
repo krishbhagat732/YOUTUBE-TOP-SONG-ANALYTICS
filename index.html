@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Top 100 Songs 2025 - Analytics Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="container">
+                <div class="header-content">
+                    <h1 class="dashboard-title">YouTube Top 100 Songs 2025</h1>
+                    <p class="dashboard-subtitle">Comprehensive Analytics Dashboard</p>
+                    <div class="theme-toggle">
+                        <button id="themeToggle" class="btn btn--outline btn--sm">🌙 Dark Mode</button>
+                    </div>
+                </div>
+                <div class="key-stats">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalSongs">100</div>
+                        <div class="stat-label">Total Songs</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="avgViews">105.9M</div>
+                        <div class="stat-label">Avg Views</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="topSong">APT.</div>
+                        <div class="stat-label">Top Song</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="topGenre">Pop</div>
+                        <div class="stat-label">Most Popular Genre</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="dashboard-nav">
+            <div class="container">
+                <div class="nav-tabs">
+                    <button class="nav-tab active" data-tab="overview">📊 Overview</button>
+                    <button class="nav-tab" data-tab="performance">📈 Performance</button>
+                    <button class="nav-tab" data-tab="genre">🎵 Genres</button>
+                    <button class="nav-tab" data-tab="predictive">🔮 Predictions</button>
+                    <button class="nav-tab" data-tab="explorer">🔍 Explorer</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <div class="container">
+                <!-- Overview Tab -->
+                <div id="overview" class="tab-content active">
+                    <div class="dashboard-grid">
+                        <div class="chart-container">
+                            <h3>View Count vs Channel Followers</h3>
+                            <canvas id="scatterChart"></canvas>
+                        </div>
+                        <div class="chart-container">
+                            <h3>Top 10 Songs by Views</h3>
+                            <canvas id="topSongsChart"></canvas>
+                        </div>
+                        <div class="chart-container">
+                            <h3>View Count Distribution</h3>
+                            <div class="chart-controls">
+                                <label class="toggle-label">
+                                    <input type="checkbox" id="logScaleToggle">
+                                    Log Scale
+                                </label>
+                            </div>
+                            <canvas id="distributionChart"></canvas>
+                        </div>
+                        <div class="insights-panel">
+                            <h3>Key Insights</h3>
+                            <div id="overviewInsights">
+                                <div class="insight-item">
+                                    <strong>Viral Threshold:</strong> Songs with 500M+ views achieve viral status
+                                </div>
+                                <div class="insight-item">
+                                    <strong>Channel Impact:</strong> Larger channels don't always guarantee success
+                                </div>
+                                <div class="insight-item">
+                                    <strong>Duration Sweet Spot:</strong> 2.5-4 minute songs perform best
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Performance Tab -->
+                <div id="performance" class="tab-content">
+                    <div class="dashboard-grid">
+                        <div class="chart-container">
+                            <h3>Success Category Distribution</h3>
+                            <canvas id="successPieChart"></canvas>
+                        </div>
+                        <div class="chart-container">
+                            <h3>Top Channels by Efficiency</h3>
+                            <canvas id="channelEfficiencyChart"></canvas>
+                        </div>
+                        <div class="chart-container">
+                            <h3>Duration Analysis by Success</h3>
+                            <canvas id="durationBoxChart"></canvas>
+                        </div>
+                        <div class="chart-container">
+                            <h3>Correlation Heatmap</h3>
+                            <canvas id="correlationChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Genre Tab -->
+                <div id="genre" class="tab-content">
+                    <div class="dashboard-grid">
+                        <div class="chart-container">
+                            <h3>Genre Distribution</h3>
+                            <canvas id="genreDistChart"></canvas>
+                        </div>
+                        <div class="chart-container">
+                            <h3>Average Views by Genre</h3>
+                            <canvas id="genreViewsChart"></canvas>
+                        </div>
+                        <div class="chart-container">
+                            <h3>Genre Performance Metrics</h3>
+                            <div class="genre-metrics" id="genreMetrics"></div>
+                        </div>
+                        <div class="chart-container">
+                            <h3>Top Songs by Genre</h3>
+                            <div class="genre-filter">
+                                <select id="genreFilter" class="form-control">
+                                    <option value="all">All Genres</option>
+                                </select>
+                            </div>
+                            <div class="top-songs-list" id="topSongsByGenre"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Predictive Tab -->
+                <div id="predictive" class="tab-content">
+                    <div class="dashboard-grid">
+                        <div class="chart-container">
+                            <h3>Model Performance</h3>
+                            <div class="model-metrics">
+                                <div class="metric-card">
+                                    <div class="metric-value">60.4%</div>
+                                    <div class="metric-label">Random Forest R²</div>
+                                </div>
+                                <div class="metric-card">
+                                    <div class="metric-value">30.0%</div>
+                                    <div class="metric-label">Classification Accuracy</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <h3>Feature Importance</h3>
+                            <canvas id="featureImportanceChart"></canvas>
+                        </div>
+                        <div class="chart-container">
+                            <h3>Success Prediction Calculator</h3>
+                            <div class="prediction-form">
+                                <div class="form-group">
+                                    <label class="form-label">Duration (seconds)</label>
+                                    <input type="range" id="durationSlider" min="60" max="400" value="200" class="form-control">
+                                    <span id="durationValue">200s</span>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Channel Followers</label>
+                                    <input type="range" id="followersSlider" min="100000" max="100000000" value="10000000" class="form-control">
+                                    <span id="followersValue">10M</span>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Genre</label>
+                                    <select id="genreSelect" class="form-control">
+                                        <option value="pop">Pop</option>
+                                        <option value="alternative">Alternative</option>
+                                        <option value="rap">Rap</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                                <button id="predictButton" class="btn btn--primary">Predict Success</button>
+                                <div id="predictionResult" class="prediction-result"></div>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <h3>Predictive Insights</h3>
+                            <div class="insights-panel">
+                                <div class="insight-item">
+                                    <strong>Duration Impact:</strong> Songs between 150-250 seconds have highest success probability
+                                </div>
+                                <div class="insight-item">
+                                    <strong>Channel Size:</strong> Mid-tier channels (5-30M followers) show best efficiency
+                                </div>
+                                <div class="insight-item">
+                                    <strong>Genre Factor:</strong> Pop genre provides 12% boost to success probability
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Explorer Tab -->
+                <div id="explorer" class="tab-content">
+                    <div class="explorer-controls">
+                        <div class="search-filters">
+                            <input type="text" id="songSearch" placeholder="Search songs or channels..." class="form-control">
+                            <select id="successFilter" class="form-control">
+                                <option value="all">All Success Levels</option>
+                                <option value="Viral">Viral</option>
+                                <option value="High">High</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Low">Low</option>
+                            </select>
+                            <select id="genreFilterExplorer" class="form-control">
+                                <option value="all">All Genres</option>
+                            </select>
+                            <button id="exportData" class="btn btn--secondary">📥 Export Data</button>
+                        </div>
+                    </div>
+                    
+                    <div class="songs-table-container">
+                        <table id="songsTable" class="songs-table">
+                            <thead>
+                                <tr>
+                                    <th data-sort="title">Title</th>
+                                    <th data-sort="channel">Channel</th>
+                                    <th data-sort="view_count">Views</th>
+                                    <th data-sort="duration">Duration</th>
+                                    <th data-sort="primary_genre">Genre</th>
+                                    <th data-sort="success_category">Success</th>
+                                    <th data-sort="view_efficiency">Efficiency</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="songsTableBody">
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="comparison-panel" id="comparisonPanel">
+                        <h3>Song Comparison</h3>
+                        <div class="comparison-cards" id="comparisonCards"></div>
+                        <button id="clearComparison" class="btn btn--outline">Clear Comparison</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
